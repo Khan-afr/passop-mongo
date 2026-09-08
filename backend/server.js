@@ -5,16 +5,6 @@ const bodyparser = require('body-parser');
 const url = process.env.MONGO_URI;
 const client = new MongoClient(url);
 const dbName = 'passop';
-
-
-
-const port = process.env.PORT || 3000;
-
-const url = process.env.MONGO_URI;
-const client = new MongoClient(url);
-
-const dbName = 'passop';
-
 const app = express();
 const port = process.env.PORT || 3000;
 
