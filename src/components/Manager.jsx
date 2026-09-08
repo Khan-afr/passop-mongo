@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+const API_URL = "https://passop-mongo-hk3u.onrender.com";
 
 const Manager = () => {
     const ref = useRef()
@@ -9,7 +10,7 @@ const Manager = () => {
     const [passwordArray, setpasswordArray] = useState([])
 
     const getPasswords = async () => {
-        let req = await fetch("http://localhost:3000/")
+        let req = await fetch(`${API_URL}/`)
         let passwords = await req.json()
         console.log(passwords)
         setpasswordArray(passwords)
@@ -39,11 +40,16 @@ const Manager = () => {
         if(form.site.length>3 && form.username.length>3 && form.password.length>3){
 
             //if any such id exist in the db, delete it
-            await fetch("http://localhost:3000/", {method: "DELETE", headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ id: form.id}) })
+           await fetch(`${API_URL}/`, {
+         method: "POST",
+         headers: {
+        "Content-Type": "application/json"
+         },
+         body: JSON.stringify({ ...form, id: uuidv4() })
+         });
 
             setpasswordArray([...passwordArray, { ...form, id: uuidv4() }])
-            await fetch("http://localhost:3000/", {method: "POST", headers: {"Content-Type": "application/json"},
+            await fetch(`${API_URL}/`, {method: "POST", headers: {"Content-Type": "application/json"},
             body: JSON.stringify({...form, id: uuidv4() }) })
             // localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
             // console.log([...passwordArray, form])
@@ -71,7 +77,7 @@ const Manager = () => {
         let c = confirm("Do you really want to delete this password?")
         if (c) {
             setpasswordArray(passwordArray.filter(item => (item.id !== id)))
-            let res = await fetch("http://localhost:3000/", {method: "DELETE", headers: {"Content-Type": "application/json"},
+            let res = await fetch(`${API_URL}/`, {method: "DELETE", headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ id }) })
             // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => (item.id !== id))))
         }
