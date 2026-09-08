@@ -1,10 +1,14 @@
-const express = require('express');
+dotenv.config();
 const cors = require('cors');
 const dotenv = require('dotenv');
-const { MongoClient } = require('mongodb');
 const bodyparser = require('body-parser');
+const url = process.env.MONGO_URI;
+const client = new MongoClient(url);
+const dbName = 'passop';
 
-dotenv.config();
+
+
+const port = process.env.PORT || 3000;
 
 const url = process.env.MONGO_URI;
 const client = new MongoClient(url);
