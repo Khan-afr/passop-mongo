@@ -1,10 +1,16 @@
-dotenv.config();
+const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const { MongoClient } = require('mongodb');
 const bodyparser = require('body-parser');
+
+dotenv.config();
+
 const url = process.env.MONGO_URI;
 const client = new MongoClient(url);
+
 const dbName = 'passop';
+
 const app = express();
 const port = process.env.PORT || 3000;
 
